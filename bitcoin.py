@@ -6,11 +6,11 @@ from btctools import *
 import time
 
 while True:
-    private_hex = secrets.token_hex(32)
-    private = PrivateKey.from_hex(private_hex)
-    public = private.to_public()
-    paddress = public.to_address('P2PKH')
-    response = requests.get('https://chain.so/api/v2/address/BTC/' + paddress)
+    private_hex = secrets.token_hex(32) # 64 Character hexdemical private key
+    private = PrivateKey.from_hex(private_hex) # WIF
+    public = private.to_public() # Public Key
+    paddress = public.to_address('P2PKH') # Public Address starting with 1
+    response = requests.get('https://chain.so/api/v2/address/BTC/' + paddress) # Chain.so API for Checking balances
     Address = ""
     if response.status_code == 200:
         content = response.json()
@@ -21,12 +21,14 @@ while True:
         print("Address:", Address)
         print("Total Balance:", balanci)
         if balanci > 0.005:
+            # Database Credentials LOCAL
             mydatabase = mysql.connector.connect(
                 host="localhost",
                 user="root",
                 passwd="",
                 database="python"
             )
+            # MYSQL Query
             query = mydatabase.cursor()
             address = "SELECT * FROM `addresses` WHERE `address` = %s"
             aval = (Address, )
@@ -45,7 +47,7 @@ while True:
         else:
             print("No Balance Found! : (")
 
-
+# With Local Node
 import secrets
 import hashlib
 import base58
