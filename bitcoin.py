@@ -46,17 +46,3 @@ while True:
                 print("Already in database. Nice!")
         else:
             print("No Balance Found! : (")
-
-# With Local Node
-import secrets
-import hashlib
-import base58
-import binascii
-from bitcoinrpc.authproxy import AuthServiceProxy, JSONRPCException
-import logging
-import os
-
-logging.basicConfig()
-logging.getLogger("BitcoinRPC").setLevel(logging.DEBUG)
-rpc_connection = AuthServiceProxy("http://%s:%s@127.0.0.1:8332"%('hackslash', 'Kancha159RPC147'))
-print(rpc_connection.importprivkey())
